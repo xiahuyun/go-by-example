@@ -1,0 +1,7 @@
+Name: kq
+Brokers:
+- 127.0.0.1:9092
+Group: new-test-group
+Topic: test-topic
+Offset: first
+Consumers: 1
