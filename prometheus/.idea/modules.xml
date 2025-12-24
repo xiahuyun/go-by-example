@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../../blogs/.idea/blogs.iml" filepath="$PROJECT_DIR$/../../blogs/.idea/blogs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../eic_cmetal/cmetal-code/.idea/cmetal-code.iml" filepath="$PROJECT_DIR$/../../eic_cmetal/cmetal-code/.idea/cmetal-code.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/prometheus.iml" filepath="$PROJECT_DIR$/.idea/prometheus.iml" />
+    </modules>
+  </component>
+</project>

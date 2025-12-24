@@ -4,15 +4,19 @@
 package svc
 
 import (
+	"github.com/zeromicro/go-zero/rest"
 	"limiter/internal/config"
+	"limiter/internal/middleware"
 )
 
 type ServiceContext struct {
-	Config config.Config
+	Config              config.Config
+	UserAgentMiddleware rest.Middleware
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	return &ServiceContext{
-		Config: c,
+		Config:              c,
+		UserAgentMiddleware: middleware.NewUserAgentMiddleware().Handle,
 	}
 }

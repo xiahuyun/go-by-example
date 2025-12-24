@@ -19,6 +19,24 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/ping",
 				Handler: pingHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/ready",
+				Handler: readyHandler(serverCtx),
+			},
 		},
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.UserAgentMiddleware},
+			[]rest.Route{
+				{
+					Method:  http.MethodGet,
+					Path:    "/user/info/:id",
+					Handler: userinfoHandler(serverCtx),
+				},
+			}...,
+		),
 	)
 }

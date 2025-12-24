@@ -49,6 +49,27 @@ func subscribe(client *redis.Client, channel string) {
 	// 持续接收消息
 	for msg := range ch {
 		fmt.Printf("接收到来自频道 %s 的消息: %s\n", msg.Channel, msg.Payload)
+		time.Sleep(1 * time.Second)
+	}
+}
+
+func subscribe1(client *redis.Client, channel string) {
+	pubsub := client.Subscribe(ctx, channel)
+
+	// 等待订阅成功
+	if _, err := pubsub.Receive(ctx); err != nil {
+		log.Fatalf("订阅失败: %v", err)
+	}
+
+	fmt.Printf("已订阅频道: %s\n", channel)
+
+	// 监听消息
+	ch := pubsub.Channel()
+
+	// 持续接收消息
+	for msg := range ch {
+		fmt.Printf("subscribe1 接收到来自频道 %s 的消息: %s\n", msg.Channel, msg.Payload)
+		//time.Sleep(1 * time.Second)
 	}
 }
 
@@ -67,6 +88,10 @@ func main() {
 	// 创建一个订阅者 goroutine
 	go subscribe(client, "news")
 
+	time.Sleep(1 * time.Second)
+
+	go subscribe1(client, "news")
+
 	// 等待订阅者准备就绪
 	// 重要性: 确保订阅者goroutine有足够时间完成订阅过程
 	// 没有这个延迟，可能导致发布的消息在订阅者准备好前发送，造成消息丢失
@@ -78,9 +103,11 @@ func main() {
 		if err := publish(client, "news", message); err != nil {
 			log.Printf("发布消息错误: %v", err)
 		}
-		time.Sleep(2 * time.Second)
+		//time.Sleep(2 * time.Second)
 	}
 
+	fmt.Println("发布完成")
+
 	// 等待消息处理完成
-	time.Sleep(2 * time.Second)
+	time.Sleep(10 * time.Second)
 }

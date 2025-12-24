@@ -1,0 +1,2 @@
+#!/bin/bash
+exec /opt/homebrew/Cellar/prometheus/3.2.1/bin/prometheus $(</opt/homebrew/etc/prometheus.args)

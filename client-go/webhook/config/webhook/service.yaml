@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/name: webhook
+    app.kubernetes.io/managed-by: kustomize
+  name: webhook-service
+  namespace: system
+spec:
+  ports:
+    - port: 443
+      protocol: TCP
+      targetPort: 9443
+  #selector:
+  #  control-plane: controller-manager
+  #  app.kubernetes.io/name: webhook
+
+# add the endpoints for local debug
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: webhook-service
+  namespace: system
+subsets:
+  - addresses:
+      - ip: 172.20.231.2
+    ports:
+      - port: 9443
+        protocol: TCP

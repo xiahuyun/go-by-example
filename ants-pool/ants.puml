@@ -1,0 +1,249 @@
+@startuml
+namespace 3 {
+    interface "Logger"  {
+        + Printf(format string, args ...any) 
+
+    }
+    class "MultiPool" << (S,Aquamarine) >> {
+        - pools []*Pool
+        - index uint32
+        - state int32
+        - lbs LoadBalancingStrategy
+
+        - next(lbs LoadBalancingStrategy) int
+
+        + Submit(task <font color=blue>func</font>() ) error
+        + Running() int
+        + RunningByIndex(idx int) (int, error)
+        + Free() int
+        + FreeByIndex(idx int) (int, error)
+        + Waiting() int
+        + WaitingByIndex(idx int) (int, error)
+        + Cap() int
+        + Tune(size int) 
+        + IsClosed() bool
+        + ReleaseTimeout(timeout time.Duration) error
+        + Reboot() 
+
+    }
+    class "MultiPoolWithFunc" << (S,Aquamarine) >> {
+        - pools []*PoolWithFunc
+        - index uint32
+        - state int32
+        - lbs LoadBalancingStrategy
+
+        - next(lbs LoadBalancingStrategy) int
+
+        + Invoke(args any) error
+        + Running() int
+        + RunningByIndex(idx int) (int, error)
+        + Free() int
+        + FreeByIndex(idx int) (int, error)
+        + Waiting() int
+        + WaitingByIndex(idx int) (int, error)
+        + Cap() int
+        + Tune(size int) 
+        + IsClosed() bool
+        + ReleaseTimeout(timeout time.Duration) error
+        + Reboot() 
+
+    }
+    class "MultiPoolWithFuncGeneric" as MultiPoolWithFuncGeneric_generic_T <<[T]>> {
+        - pools []*PoolWithFuncGeneric
+        - index uint32
+        - state int32
+        - lbs LoadBalancingStrategy
+
+        - next(lbs LoadBalancingStrategy) int
+
+        + Invoke(args T) error
+        + Running() int
+        + RunningByIndex(idx int) (int, error)
+        + Free() int
+        + FreeByIndex(idx int) (int, error)
+        + Waiting() int
+        + WaitingByIndex(idx int) (int, error)
+        + Cap() int
+        + Tune(size int) 
+        + IsClosed() bool
+        + ReleaseTimeout(timeout time.Duration) error
+        + Reboot() 
+
+    }
+    class "T" <<type parameter>> {
+        constraints: any
+    }
+    class "Options" << (S,Aquamarine) >> {
+        + ExpiryDuration time.Duration
+        + PreAlloc bool
+        + MaxBlockingTasks int
+        + Nonblocking bool
+        + PanicHandler <font color=blue>func</font>(any) 
+        + Logger Logger
+        + DisablePurge bool
+
+    }
+    class "Pool" << (S,Aquamarine) >> {
+        + Submit(task <font color=blue>func</font>() ) error
+
+    }
+    class "PoolWithFunc" << (S,Aquamarine) >> {
+        - fn <font color=blue>func</font>(any) 
+
+        + Invoke(arg any) error
+
+    }
+    class "PoolWithFuncGeneric" as PoolWithFuncGeneric_generic_T <<[T]>> {
+        - fn <font color=blue>func</font>(T) 
+
+        + Invoke(arg T) error
+
+    }
+    class "goWorker" << (S,Aquamarine) >> {
+        - pool *Pool
+        - task <font color=blue>chan</font> <font color=blue>func</font>() 
+        - lastUsed time.Time
+
+        - run() 
+        - finish() 
+        - lastUsedTime() time.Time
+        - setLastUsedTime(t time.Time) 
+        - inputFunc(fn <font color=blue>func</font>() ) 
+
+    }
+    class "goWorkerWithFunc" << (S,Aquamarine) >> {
+        - pool *PoolWithFunc
+        - arg <font color=blue>chan</font> any
+        - lastUsed time.Time
+
+        - run() 
+        - finish() 
+        - lastUsedTime() time.Time
+        - setLastUsedTime(t time.Time) 
+        - inputArg(arg any) 
+
+    }
+    class "goWorkerWithFuncGeneric" as goWorkerWithFuncGeneric_generic_T <<[T]>> {
+        - pool *PoolWithFuncGeneric
+        - arg <font color=blue>chan</font> T
+        - exit <font color=blue>chan</font> <font color=blue>struct</font>{}
+        - lastUsed time.Time
+
+        - run() 
+        - finish() 
+        - lastUsedTime() time.Time
+        - setLastUsedTime(t time.Time) 
+
+    }
+    class "loopQueue" << (S,Aquamarine) >> {
+        - items []worker
+        - expiry []worker
+        - head int
+        - tail int
+        - size int
+        - isFull bool
+
+        - len() int
+        - isEmpty() bool
+        - insert(w worker) error
+        - detach() worker
+        - refresh(duration time.Duration) []worker
+        - binarySearch(expiryTime time.Time) int
+        - reset() 
+
+    }
+    class "poolCommon" << (S,Aquamarine) >> {
+        - capacity int32
+        - running int32
+        - lock sync.Locker
+        - workers workerQueue
+        - state int32
+        - cond *sync.Cond
+        - allDone <font color=blue>chan</font> <font color=blue>struct</font>{}
+        - once *sync.Once
+        - workerCache sync.Pool
+        - waiting int32
+        - purgeDone int32
+        - purgeCtx context.Context
+        - stopPurge context.CancelFunc
+        - ticktockDone int32
+        - ticktockCtx context.Context
+        - stopTicktock context.CancelFunc
+        - now atomic.Value
+        - options *Options
+
+        - purgeStaleWorkers() 
+        - ticktock() 
+        - goPurge() 
+        - goTicktock() 
+        - nowTime() time.Time
+        - addRunning(delta int) int
+        - addWaiting(delta int) 
+        - retrieveWorker() (worker, error)
+        - revertWorker(worker worker) bool
+
+        + Running() int
+        + Free() int
+        + Waiting() int
+        + Cap() int
+        + Tune(size int) 
+        + IsClosed() bool
+        + Release() 
+        + ReleaseTimeout(timeout time.Duration) error
+        + Reboot() 
+
+    }
+    class "v2@v2.11.3.LoadBalancingStrategy" << (T, #FF7700) >>  {
+    }
+    class "v2@v2.11.3.Option" << (T, #FF7700) >>  {
+    }
+    class "v2@v2.11.3.queueType" << (T, #FF7700) >>  {
+    }
+    interface "worker"  {
+        - run() 
+        - finish() 
+        - lastUsedTime() time.Time
+        - setLastUsedTime(t time.Time) 
+        - inputFunc( <font color=blue>func</font>() ) 
+        - inputArg( any) 
+
+    }
+    interface "workerQueue"  {
+        - len() int
+        - isEmpty() bool
+        - insert( worker) error
+        - detach() worker
+        - refresh(duration time.Duration) []worker
+        - reset() 
+
+    }
+    class "workerStack" << (S,Aquamarine) >> {
+        - items []worker
+        - expiry []worker
+
+        - len() int
+        - isEmpty() bool
+        - insert(w worker) error
+        - detach() worker
+        - refresh(duration time.Duration) []worker
+        - binarySearch(l int, r int, expiryTime time.Time) int
+        - reset() 
+
+    }
+}
+"__builtin__.int" #.. "v2@v2.11.3.LoadBalancingStrategy"
+"__builtin__.int" #.. "v2@v2.11.3.queueType"
+"v2@v2.113fontcolorbluefuncfontOptions" #.. "v2@v2.11.3.Option"
+"v2@v2.11.3.poolCommon" *-- "v2@v2.11.3.Pool"
+"v2@v2.11.3.poolCommon" *-- "v2@v2.11.3.PoolWithFunc"
+"v2@v2.11.3.poolCommon" *-- "v2@v2.11.3.PoolWithFuncGeneric"
+"v2@v2.11.3.worker" *-- "v2@v2.11.3.goWorker"
+"v2@v2.11.3.worker" *-- "v2@v2.11.3.goWorkerWithFunc"
+"v2@v2.11.3.worker" *-- "v2@v2.11.3.goWorkerWithFuncGeneric"
+
+
+"T" <-- "param" "MultiPoolWithFuncGeneric_generic_T"
+"T" <-- "param" "PoolWithFuncGeneric_generic_T"
+"T" <-- "param" "goWorkerWithFuncGeneric_generic_T"
+
+@enduml

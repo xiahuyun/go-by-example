@@ -27,6 +27,6 @@ func NewPingLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PingLogic {
 }
 
 func (l *PingLogic) Ping() error {
-	time.Sleep(50 * time.Millisecond)
+	time.Sleep(1 * time.Minute)
 	return nil
 }

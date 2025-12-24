@@ -1,0 +1,25 @@
+@startuml
+namespace pkg {
+    interface "MyInterface"  {
+        - foo() bool
+
+    }
+    class "MyStruct1" << (S,Aquamarine) >> {
+        - foo() bool
+
+    }
+    class "MyStruct2" << (S,Aquamarine) >> {
+    }
+    class "MyStruct3" << (S,Aquamarine) >> {
+        + Foo MyStruct1
+
+        - foo() 
+
+    }
+}
+"pkg.MyStruct1" *-- "pkg.MyStruct2"
+
+"pkg.MyInterface" <|-- "pkg.MyStruct1"
+
+
+@enduml
