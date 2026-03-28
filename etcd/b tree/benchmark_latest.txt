@@ -1,0 +1,22 @@
+goos: darwin
+goarch: arm64
+pkg: etcd-tree-bench
+cpu: Apple M3
+BenchmarkInsertRandom/BTree/N=10000-8         	     538	   2171940 ns/op	  473925 B/op	   10468 allocs/op
+BenchmarkInsertRandom/LLRB/N=10000-8          	     392	   4179908 ns/op	  557962 B/op	   19744 allocs/op
+BenchmarkInsertRandom/BTree/N=100000-8        	      14	 148999914 ns/op	 4704992 B/op	  106705 allocs/op
+BenchmarkInsertRandom/LLRB/N=100000-8         	      14	  85114839 ns/op	 5598035 B/op	  199744 allocs/op
+BenchmarkGetHit/BTree/N=10000-8               	 3429825	       363.0 ns/op	       7 B/op	       0 allocs/op
+BenchmarkGetHit/LLRB/N=10000-8                	 3649267	       308.2 ns/op	       7 B/op	       0 allocs/op
+BenchmarkGetHit/BTree/N=100000-8              	 1000000	      1293 ns/op	       7 B/op	       0 allocs/op
+BenchmarkGetHit/LLRB/N=100000-8               	 3664699	       353.2 ns/op	       7 B/op	       0 allocs/op
+BenchmarkGetMiss/BTree/N=10000-8              	12780226	        98.15 ns/op	       8 B/op	       1 allocs/op
+BenchmarkGetMiss/LLRB/N=10000-8               	10437496	       125.0 ns/op	       8 B/op	       1 allocs/op
+BenchmarkGetMiss/BTree/N=100000-8             	10797763	       134.4 ns/op	       8 B/op	       1 allocs/op
+BenchmarkGetMiss/LLRB/N=100000-8              	 8736708	       121.8 ns/op	       8 B/op	       1 allocs/op
+BenchmarkDeleteRandom/BTree/N=10000-8         	     211	   5816031 ns/op	  556485 B/op	   20216 allocs/op
+BenchmarkDeleteRandom/LLRB/N=10000-8          	     171	   6922627 ns/op	  635917 B/op	   29488 allocs/op
+BenchmarkDeleteRandom/BTree/N=50000-8         	      38	  35206783 ns/op	 2767640 B/op	  102974 allocs/op
+BenchmarkDeleteRandom/LLRB/N=50000-8          	      25	  59189940 ns/op	 3195970 B/op	  149488 allocs/op
+PASS
+ok  	etcd-tree-bench	32.111s
