@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"os/signal"
@@ -35,6 +36,10 @@ func main() {
 	if err != nil {
 		log.Fatal("Error connecting to Websocket Server:", err)
 	}
+
+	addr := conn.RemoteAddr().String()
+	fmt.Println("Connected to Websocket Server:", addr)
+
 	defer conn.Close()
 	go receiveHandler(conn)
 
