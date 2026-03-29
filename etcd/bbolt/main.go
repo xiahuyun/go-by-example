@@ -162,4 +162,6 @@ func main() {
 	if err := printAllUsers(db); err != nil {
 		log.Fatal(err)
 	}
+
+	//fmt.Println(os.Getpagesize())
 }

@@ -10,18 +10,17 @@ import (
 )
 
 func main() {
-	db, err := bbolt.Open("/Users/project/etcd/server/default.etcd/member/snap/db", 0600, nil)
+	db, err := bbolt.Open("/Users/hxia/project/etcd/server/default.etcd/member/snap/db", 0600, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer db.Close()
 
 	// 你从 bbolt keys 拿到的 revision（hex）
-	keyHex := "00000000000000025f0000000000000000"
+	keyHex := "00000000000000055f0000000000000000"
 
 	// 转成二进制
 	revKey, _ := hex.DecodeString(keyHex)
-	fmt.Println("revKey:", string(revKey))
 
 	db.View(func(tx *bbolt.Tx) error {
 		b := tx.Bucket([]byte("key"))
@@ -41,6 +40,9 @@ func main() {
 		fmt.Println("user key  :", string(kv.Key))
 		fmt.Println("user value:", string(kv.Value))
 		fmt.Println("mod rev   :", kv.ModRevision)
+		fmt.Println("create rev :", kv.CreateRevision)
+		fmt.Println("version    :", kv.Version)
+		fmt.Println("lease      :", kv.Lease)
 		return nil
 	})
 }
