@@ -16,7 +16,7 @@
 | `cow` | 并发配置更新示例（Copy-On-Write 思路实验） | `main.go` |
 | `envoy` | Envoy 静态/动态配置样例（YAML） | `envoy-*.yaml` |
 | `es` | Elasticsearch 客户端调用示例（含 ILM 等操作） | `main.go` |
-| `etcd` | etcd 相关专题示例集合（客户端、存储引擎、Raft、MVCC 等） | `basic/`, `mvcc/`, `raft/` 等 |
+| `etcd` | etcd 相关专题示例集合（客户端、存储引擎、Raft、MVCC、线性读流程等） | `basic/`, `mvcc/`, `raft/`, `linearizable-read-demo/` 等 |
 | `excel` | 通过 HTTP 导出 Excel 文件示例（`excelize`） | `main.go` |
 | `exporter` | 自定义 Prometheus Exporter（暴露 `/metrics`） | `main.go` |
 | `fsync` | `write + fsync` 持久化语义演示 | `fsync.go` |
@@ -65,6 +65,7 @@
 | `etcd/bbolt` | 用 bbolt 模拟 KV 存储与 CRUD |
 | `etcd/etcd-bbolt` | 直接读取 etcd 底层 bbolt 数据并解析 mvccpb KV |
 | `etcd/grpc` | gRPC 多节点 + round-robin 访问示例 |
+| `etcd/linearizable-read-demo` | 用最小模型模拟 linearizableReadNotify/linearizableReadLoop/applyWait 协作流程 |
 | `etcd/mvcc` | etcd MVCC 历史版本读取、CAS、按修订 watch 示例 |
 | `etcd/raft` | 基于 `go.etcd.io/raft/v3` 的最小多节点 raft 演示 |
 | `etcd/raft-wal-restart` | 带 WAL+快照落盘与重启恢复的 raft 演示 |
