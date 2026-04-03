@@ -1,0 +1,2 @@
+go.etcd.io/etcd/client/pkg/v3 v3.6.10 h1:tBT7podcPhuVbCVkAEzx8bC5I+aqxfLwBN8/As1arrA=
+go.etcd.io/etcd/client/pkg/v3 v3.6.10/go.mod h1:WEy3PpwbbEBVRdh1NVJYsuUe/8eyI21PNJRazeD8z/Y=
