@@ -48,6 +48,7 @@
 | `task-scheduler` | 定时任务调度示例（`robfig/cron`） | `cron/main.go` |
 | `time` | 定时器/时钟抽象示例（`k8s.io/utils/clock`） | `ticker/main.go` |
 | `uuid` | 请求幂等设计演进示例（含 UUID request id） | `uuid1/`, `uuid2/`, `uuid3/` |
+| `verify` | etcd `verify.Assert` 断言失败/快速失败示例 | `verify.go`, `README.md` |
 | `wait` | 轮询与指数退避重试示例（`k8s wait`） | `backoff/`, `poll/` |
 | `wal` | 简化版 WAL（Write-Ahead Log）写入与恢复示例 | `main.go` |
 | `websocket` | WebSocket v1/v2 示例（回显、连接管理、广播） | `v1/`, `v2/` |
