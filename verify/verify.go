@@ -1,6 +1,10 @@
 package main
 
-import "go.etcd.io/etcd/client/pkg/v3/verify"
+import (
+	"fmt"
+
+	"go.etcd.io/etcd/client/pkg/v3/verify"
+)
 
 type Logger struct {
 }
@@ -14,4 +18,10 @@ func main() {
 func handle(lg *Logger) {
 	// Implementation for handling logger
 	verify.Assert(lg != nil, "Logger should not be nil")
+
+	verify.Verify(
+		func() {
+			fmt.Println("Verify")
+		},
+	)
 }
