@@ -25,6 +25,18 @@ go run .
 
 运行后会在当前目录生成一个本地数据库文件 `demo.db`。
 
+## 并发读写验证示例
+
+- `tx-verify`：演示“读会影响写提交阶段（触发 mmap 重映射时）”
+- `tx-no-mmap`：演示“写不触发 mmap 重映射时，基本不被读明显阻塞”
+
+运行方式（在 `etcd/bbolt` 目录）：
+
+```bash
+go run ./tx-verify
+go run ./tx-no-mmap
+```
+
 ## 代码要点
 
 1. `bolt.Open` 打开/创建本地数据库文件。
