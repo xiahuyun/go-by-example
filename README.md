@@ -10,7 +10,6 @@
 | `ants-pool` | 对比原生 goroutine 与 `ants` 协程池的资源开销与吞吐 | `ants_test.go`, `main.go` |
 | `asynq` | 基于 Redis 的异步任务队列示例（生产者/消费者） | `client/`, `server/`, `README.md` |
 | `chunkenc` | 演示 Prometheus TSDB 的 XOR chunk 压缩与遍历 | `main.go` |
-| `clauda` | 预留目录（当前无示例代码） | - |
 | `client-go` | Kubernetes `client-go` 用法示例：RESTClient、List、Informer、Indexer、Webhook | `RESTClient/`, `informer/`, `webhook/` |
 | `context` | `context` 取消、超时等协程控制示例 | `cancel/`, `timeout/` |
 | `cow` | 并发配置更新示例（Copy-On-Write 思路实验） | `main.go` |
@@ -74,4 +73,4 @@
 ## 说明
 
 - 这是示例仓库，部分目录偏实验性质，代码风格与工程化程度可能不完全一致。
-- 少量目录以配置文件或素材为主（例如 `envoy`、`clauda`），可按需补充可运行示例。
+- 少量目录以配置文件或素材为主（例如 `envoy`），可按需补充可运行示例。
