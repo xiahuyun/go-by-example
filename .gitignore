@@ -1,10 +1,14 @@
 /.idea
 /.DS_Store
+**/.DS_Store
 
 # Runtime artifacts
+*.log
 /etcd/raft.log
 /etcd/raft/record.log
 /etcd/raft-wal-restart/data/
+/envoy/logs/
+/go-zero/log/logs/
 /mmap/data.db
 /mmap/test/*.db
 /mmap/test1/*.db
