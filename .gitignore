@@ -1,16 +1,20 @@
 # OS / editor files
 .DS_Store
+**/.DS_Store
 .idea/
 
 # Codex local backups
 .codex-sync-backup/
 
 # Runtime artifacts
+*.log
 /etcd/raft.log
 /etcd/raft/record.log
 /etcd/raft-wal-restart/data/
 /etcd/mvcc/db
 /etcd/mvcc/default.etcd/
+/envoy/logs/
+/go-zero/log/logs/
 /mmap/data.db
 /mmap/*.db
 /mmap/test/*.db
