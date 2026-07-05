@@ -40,6 +40,10 @@ func main() {
 	put1 := mustPut(cli, key, "v1-created")
 	put2 := mustPut(cli, key, "v2-updated")
 	put3 := mustPut(cli, key, "v3-updated")
+	for i := 0; i < 100; i++ {
+		v := fmt.Sprintf("v%d-updated", i)
+		_ = mustPut(cli, key, v)
+	}
 
 	fmt.Println("== 1) latest version ==")
 	latestKV := mustGetSingle(cli, key)

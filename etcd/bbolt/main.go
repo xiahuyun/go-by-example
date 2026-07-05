@@ -39,6 +39,17 @@ func upsertUser(db *bolt.DB, user User) error {
 	})
 }
 
+func upsertBigUser(db *bolt.DB) error {
+	return db.Update(func(tx *bolt.Tx) error {
+		b := tx.Bucket(bucketName)
+		if b == nil {
+			return errors.New("bucket users does not exist")
+		}
+
+		return b.Put([]byte("big"), make([]byte, 20000))
+	})
+}
+
 func getUser(db *bolt.DB, id int) (User, bool, error) {
 	var (
 		user  User
@@ -59,6 +70,17 @@ func getUser(db *bolt.DB, id int) (User, bool, error) {
 		if err := json.Unmarshal(v, &user); err != nil {
 			return fmt.Errorf("unmarshal user failed: %w", err)
 		}
+
+		id = id + 1
+		v = b.Get(userKey(id))
+		if v == nil {
+			return nil
+		}
+
+		if err := json.Unmarshal(v, &user); err != nil {
+			return fmt.Errorf("unmarshal user failed: %w", err)
+		}
+
 		found = true
 		return nil
 	})
@@ -163,5 +185,47 @@ func main() {
 		log.Fatal(err)
 	}
 
-	//fmt.Println(os.Getpagesize())
+	for i := 0; i < 100; i++ {
+		name := "user_class_" + strconv.Itoa(i)
+		if err := upsertUser(db, User{ID: i, Name: name, Score: 100}); err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	if err := upsertUser(db, User{ID: 1130, Name: "xing", Score: 100}); err != nil {
+		log.Fatal(err)
+	}
+
+	if user, ok, err := getUser(db, 1002); err != nil {
+		log.Fatal(err)
+	} else if ok {
+		fmt.Printf("更新后: %+v\n", user)
+	}
+
+	if err := db.Batch(func(tx *bolt.Tx) error {
+		idx := fmt.Sprintf("idx_%s", 0)
+		return tx.Bucket(bucketName).Put([]byte(idx), []byte{})
+	}); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := db.Batch(func(tx *bolt.Tx) error {
+		idx := fmt.Sprintf("idx_%s", 1)
+		return tx.Bucket(bucketName).Put([]byte(idx), []byte{})
+	}); err != nil {
+		log.Fatal(err)
+	}
+
+	idx := fmt.Sprintf("idx_test")
+	if err := db.Update(func(tx *bolt.Tx) error {
+		key1 := "huyun"
+		if err := tx.Bucket(bucketName).Put([]byte(idx), []byte(key1)); err != nil {
+			log.Fatal(err)
+		}
+		return nil
+	}); err != nil {
+		log.Fatal(err)
+	}
+
+	//os.Remove("demo.db")
 }

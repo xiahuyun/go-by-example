@@ -21,6 +21,7 @@ func main() {
 
 	// 转成二进制
 	revKey, _ := hex.DecodeString(keyHex)
+	fmt.Println(revKey)
 
 	db.View(func(tx *bbolt.Tx) error {
 		b := tx.Bucket([]byte("key"))

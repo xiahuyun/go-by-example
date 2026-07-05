@@ -13,6 +13,7 @@ func runningTask(ctx context.Context, id int) {
 	for {
 		select {
 		case <-ctx.Done():
+			println(fmt.Sprintf("task %d is canceled", id))
 			return
 		case <-ticker.C:
 			println(fmt.Sprintf("running task %d", id))
@@ -22,11 +23,13 @@ func runningTask(ctx context.Context, id int) {
 
 func main() {
 	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
 
 	go runningTask(ctx, 1)
 	go runningTask(ctx, 2)
 
 	time.Sleep(2 * time.Second)
 	fmt.Println("main goroutine is done")
+
+	cancel()
+	time.Sleep(1 * time.Second)
 }

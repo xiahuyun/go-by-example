@@ -19,6 +19,13 @@ func main() {
 
 	size := 4096
 
+	fileInfo, err := file.Stat()
+	if err != nil {
+		panic(err)
+	}
+	fileSize := fileInfo.Size()
+	fmt.Printf("file size: %d\n", fileSize)
+
 	// 2 扩展文件大小
 	err = file.Truncate(int64(size))
 	if err != nil {
@@ -43,7 +50,7 @@ func main() {
 	copy(data[0:], []byte("hello mmap"))
 
 	// 5 读取数据
-	fmt.Println(string(data[:5]))
+	fmt.Println(string(data))
 
 	// 6 强制刷盘
 	err = unix.Msync(data, unix.MS_SYNC)
@@ -57,5 +64,6 @@ func main() {
 		panic(err)
 	}
 
+	os.Remove(filePath)
 	fmt.Println("done")
 }
